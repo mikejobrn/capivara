@@ -9,8 +9,8 @@
         "node_modules": true,
         "**.js": true,
         "**.js.map": true,
-        "app/**/**.js": true,
-        "app/**/**.js.map": true,
+        "core/**/**.js": true,
+        "core/**/**.js.map": true,
         ".tscache": true
     }
 }
