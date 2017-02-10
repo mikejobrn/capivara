@@ -1,0 +1,37 @@
+{
+  "name": "typress",
+  "version": "0.0.1",
+  "description": "Library to use Express + Typescript",
+  "scripts": {
+    "start": "grunt && concurrently \"grunt watch\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorschinaider/devnatal-api-user"
+  },
+  "files": [
+    "index.js",
+    "core"
+  ],
+  "author": "psidev",
+  "homepage": "https://github.com/victorschinaider/devnatal-api-user",
+  "dependencies": {
+    "express": "4.14.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/compression": "0.0.33",
+    "@types/errorhandler": "0.0.30",
+    "@types/express": "^4.0.35",
+    "@types/request": "0.0.39",
+    "@types/rx": "^4.1.1",
+    "chai": "^3.5.0",
+    "concurrently": "^3.1.0",
+    "errorhandler": "^1.5.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-ts": "^6.0.0-beta.11",
+    "mocha": "^3.2.0",
+    "typescript": "^2.1.5"
+  }
+}
