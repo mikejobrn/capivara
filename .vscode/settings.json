@@ -11,6 +11,8 @@
         "**.js.map": true,
         "core/**/**.js": true,
         "core/**/**.js.map": true,
+        "test/**/**.js": true,
+        "test/**/**.js.map": true,
         ".tscache": true
     }
 }

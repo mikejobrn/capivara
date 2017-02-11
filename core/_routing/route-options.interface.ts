@@ -1,16 +1,13 @@
 import { Route } from './route.decorator';
+import { RouteMethod } from './route-method.enum';
 import { RequestHandler } from 'express';
 
 export interface RouteOptions {
 
     /**
-     * An HTTP method in lowercase.
-     *
-     * Like: `get`, `post`, `delete`, ..
-     *
-     * To all methods, see: http://expressjs.com/en/4x/api.html#routing-methods
+     * A HTTP method.
      */
-    method: string,
+    method: RouteMethod,
 
     /** The path that will represent the route */
     path: string,

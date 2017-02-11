@@ -4,4 +4,6 @@ function __export(m) {
 }
 __export(require("./route.decorator"));
 __export(require("./router-handler.class"));
+__export(require("./route-method.enum"));
+__export(require("./router.decorator"));
 //# sourceMappingURL=index.js.map

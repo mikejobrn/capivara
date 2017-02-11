@@ -33,8 +33,8 @@ export class Server {
         configSetter.configure(this._app);
     }
 
-    public start(): void {
-        this._app.listen(3000);
+    public start(port?: number): void {
+        this._app.listen(port? port: 3001);
     }
 
 }

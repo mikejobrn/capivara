@@ -5,7 +5,11 @@
 
 **In development.**
 
-## It's easy and organizer to grow up with **typress**.
+It's easy to organize complex code with `typress`.
+
+You can easy modularize your express code with `typress`.
+
+### Example
 
 `File1.ts:`
 ```javascript
@@ -13,9 +17,14 @@
     path: '/',
     method: 'get'
 })
-export class MyController {
+export class MyController implements RouteDef {
+
+    private _test(): void {
+        console.log('Just a test');
+    }
 
     Route(req: Request, res: Response, Next: NextFunction) {
+        this._test();
         res.send('Hello World');
     }
 

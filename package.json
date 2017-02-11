@@ -1,9 +1,10 @@
 {
   "name": "typress",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library to use Express + Typescript",
   "scripts": {
-    "start": "grunt && concurrently \"grunt watch\" "
+    "start": "grunt && concurrently \"grunt watch\" ",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

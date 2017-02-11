@@ -1,10 +1,12 @@
 "use strict";
+const express_1 = require("express");
 const types_1 = require("./types");
+const routing_1 = require("./routing");
 class ConfigSetter {
     constructor() {
         this._serverMode = types_1.ServerMode.DEVELOPMENT;
         this._middlewares = [];
-        this._routes = [];
+        this._routers = [];
     }
     get serverMode() {
         return this._serverMode;
@@ -16,10 +18,6 @@ class ConfigSetter {
         if (serverMode === types_1.ServerMode.ANY)
             types_1.ServerMode.DEVELOPMENT;
         this._serverMode = serverMode;
-    }
-    /** Push routes to configuration  */
-    pushRoutes(routes) {
-        this._routes.push(routes);
     }
     /**
      * Define middleware functions to the app.
@@ -39,13 +37,7 @@ class ConfigSetter {
     /** Configure an app with definitions at ConfigSetter. */
     configure(app) {
         this._configureMiddlewares(app);
-        this._configureRoutes(app);
-    }
-    /** It configures routes */
-    _configureRoutes(app) {
-        this._routes.forEach((val, index) => {
-            app.use(val);
-        });
+        this._configureRouters(app);
     }
     /** It configures middlewares */
     _configureMiddlewares(app) {
@@ -53,6 +45,68 @@ class ConfigSetter {
             if (val.serverMode === types_1.ServerMode.ANY || val.serverMode === this.serverMode)
                 app.use(val.requestHandlerParam);
         });
+    }
+    /** ******************
+     * HANDLING WITH ROUTERS
+     ********************* */
+    /** Push routers to configuration  */
+    setRouter(routers) {
+        this._routers.push(routers);
+    }
+    /** It configures routes */
+    _configureRouters(app) {
+        this._routers.forEach((router, index) => {
+            this._proccessRouter(router, app);
+        });
+    }
+    _proccessRouter(router, app, parent) {
+        if (!this._isRouterDecorated(router))
+            throw 'You tried to proccess an undecorated router';
+        if (!this._isRouterOptionsDefined(router))
+            throw 'You didnt defined options for router';
+        let routerOptions = (new router())._typress_core_router_options;
+        let realRouter = express_1.Router();
+        for (let i = 0; i < routerOptions.routes.length; ++i) {
+            if (!this._isRouteDecorated(routerOptions.routes[i]))
+                throw 'You tried to pass an undecorated route';
+            this._proccessRoute(realRouter, routerOptions.routes[i]);
+        }
+        // here go deep through the tree
+        if (routerOptions.routers)
+            for (let i = 0; i < routerOptions.routers.length; ++i)
+                this._proccessRouter(routerOptions.routers[i], null, realRouter);
+        if (parent)
+            parent.use(routerOptions.mountPoint, realRouter);
+        else
+            app.use(routerOptions.mountPoint, realRouter);
+    }
+    _isRouterDecorated(router) {
+        let routerd = new router();
+        return routerd._typress_core_router_identifier
+            ? routerd._typress_core_router_identifier === 'router_type'
+                ? true : false
+            : false;
+    }
+    _isRouterOptionsDefined(router) {
+        let routerd = new router();
+        return routerd._typress_core_router_options
+            ? true
+            : false;
+    }
+    _isRouteDecorated(route) {
+        return (new route())._core_route_identifier ? true : false;
+    }
+    _proccessRoute(router, route) {
+        let _route = new route();
+        let opts = _route._core_route_options;
+        if (opts.method === routing_1.RouteMethod.GET) {
+            router.get(opts.path, opts.beforeMiddlewares ? opts.beforeMiddlewares : [], (req, res, next) => {
+                if (route.prototype.Route.length === 2)
+                    _route.Route(req, res);
+                else if (route.prototype.Route.length === 3)
+                    _route.Route(req, res, next);
+            });
+        }
     }
 }
 exports.ConfigSetter = ConfigSetter;

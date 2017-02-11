@@ -24,8 +24,8 @@ class Server {
         this._app = express();
         configSetter.configure(this._app);
     }
-    start() {
-        this._app.listen(3000);
+    start(port) {
+        this._app.listen(port ? port : 3001);
     }
 }
 exports.Server = Server;

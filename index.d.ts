@@ -1,11 +1,70 @@
-import { Router, RequestHandler,
-    ErrorRequestHandler } from 'express';
+import {
+    Router, RequestHandler,
+    ErrorRequestHandler, Request,
+    Response, NextFunction } from 'express';
 
 declare namespace typress {
 
     type RequestHandlerParams = RequestHandler
         | ErrorRequestHandler
         | (RequestHandler | ErrorRequestHandler)[];
+
+    enum RouteMethod {
+        /**
+         * The GET method requests transfer of a current selected representation
+         * for the target resource.  GET is the primary mechanism of information
+         * retrieval and the focus of almost all performance optimizations.
+         * Hence, when people speak of retrieving some identifiable information
+         * via HTTP, they are generally referring to making a GET request.
+         *
+         * See: https://tools.ietf.org/html/rfc7231#section-4.3
+         */
+        GET,
+
+        /**
+         * The HEAD method is identical to GET except that the server MUST NOT
+         * send a message body in the response (i.e., the response terminates at
+         * the end of the header section).  The server SHOULD send the same
+         * header fields in response to a HEAD request as it would have sent if
+         * the request had been a GET, except that the payload header fields
+         * (Section 3.3) MAY be omitted.  This method can be used for obtaining
+         * metadata about the selected representation without transferring the
+         * representation data and is often used for testing hypertext links for
+         * validity, accessibility, and recent modification.
+         *
+         * See: https://tools.ietf.org/html/rfc7231#section-4.3
+         */
+        HEAD,
+
+        /**
+         * The POST method requests that the target resource process the
+         * representation enclosed in the request according to the resource's
+         * own specific semantics.  For example, POST is used for the following
+         * functions (among others):
+         *
+         * o  Providing a block of data, such as the fields entered into an HTML
+         * form, to a data-handling process;
+         *
+         * o  Posting a message to a bulletin board, newsgroup, mailing list,
+         *  blog, or similar group of articles;
+         *
+         * o  Creating a new resource that has yet to be identified by the
+         * origin server; and
+         *
+         * o  Appending data to a resource's existing representation(s).
+         *
+         * See: https://tools.ietf.org/html/rfc7231#section-4.3
+         */
+        POST,
+
+        OPTIONS,
+
+        PATCH,
+
+        PUT,
+
+        DELETE
+    }
 
     enum ServerMode {
         DEVELOPMENT,
@@ -45,9 +104,19 @@ declare namespace typress {
 
     function Route(routeOptions: RouteOptions);
 
+    /**
+     * Route function definition.
+     *
+     * It needs implementation in a class
+     * with `Route` decorator.
+     */
+    interface RouteDef {
+        Route(req: Request, res: Response, next?: NextFunction): void;
+    }
+
     class RouterHandler {
 
-         public static create(routes: Array<any>) : Router;
+        public static create(routes: Array<any>): Router;
 
     }
 
@@ -60,14 +129,16 @@ declare namespace typress {
         /** Get the ServerMode of ConfigSetter */
         serverMode(): ServerMode;
 
+        constructor();
+
         /**
          * Define in what mode the server
          * will be running
          */
         serverMode(serverMode: ServerMode);
 
-        /** Push routes to configuration  */
-        public pushRoutes(routes: Router) : void;
+        /** Push routers to configuration  */
+        public setRouter(routers: any|Array<any>) : void;
 
         /**
          * Define middleware functions to the app.

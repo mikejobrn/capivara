@@ -1,5 +1,6 @@
 "use strict";
 const express_1 = require("express");
+const route_method_enum_1 = require("./route-method.enum");
 class RouterHandler {
     /**
      * Create a express ``Router`` from `routes` param.
@@ -8,7 +9,7 @@ class RouterHandler {
         let routerTemp = express_1.Router();
         for (let i = 0; i < routes.length; ++i) {
             if (!this.isItDecorated(routes[i]))
-                continue;
+                throw 'You tried to pass an undecorated route';
             this.push2Router(routerTemp, routes[i]);
         }
         return routerTemp;
@@ -25,7 +26,7 @@ class RouterHandler {
     static push2Router(router, route) {
         let _route = new route();
         let opts = _route._core_route_options;
-        if (opts.method === 'get') {
+        if (opts.method === route_method_enum_1.RouteMethod.GET) {
             router.get(opts.path, opts.beforeMiddlewares ? opts.beforeMiddlewares : [], (req, res, next) => {
                 if (route.prototype.Route.length === 2)
                     _route.Route(req, res);
