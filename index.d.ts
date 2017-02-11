@@ -4,8 +4,8 @@ import { Router, RequestHandler,
 declare namespace typress {
 
     type RequestHandlerParams = RequestHandler
-    | ErrorRequestHandler
-    | (RequestHandler | ErrorRequestHandler)[];
+        | ErrorRequestHandler
+        | (RequestHandler | ErrorRequestHandler)[];
 
     enum ServerMode {
         DEVELOPMENT,
