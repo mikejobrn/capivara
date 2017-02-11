@@ -9,10 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/victorschinaider/devnatal-api-user"
   },
-  "files": [
-    "index.js",
-    "core"
-  ],
   "author": "psidev",
   "homepage": "https://github.com/victorschinaider/devnatal-api-user",
   "dependencies": {
