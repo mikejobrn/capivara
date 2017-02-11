@@ -1,6 +1,6 @@
 {
   "name": "typress",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library to use Express + Typescript",
   "scripts": {
     "start": "grunt && concurrently \"grunt watch\" "

@@ -1,2 +1,6 @@
 <h2 align="center">typress</h2>
-A library to easy use Typescript + Express
+<p align="center">
+    Library to use Express + Typescript
+</p>
+
+In development.
