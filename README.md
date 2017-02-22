@@ -1,15 +1,37 @@
-<h2 align="center">typress</h2>
+<h2 align="center">Capivara</h2>
+
 <p align="center">
     Library to use Express + Typescript
 </p>
 
+<div align="center">
+    <img src="https://img.shields.io/badge/Typescript-latest-blue.svg">
+</div>
+
 **In development.**
 
-It's easy to organize complex code with `typress`.
+`Capivara` helps you to create a modularized express application using `Typescript`.
 
-You can easy modularize your express code with `typress`.
+## Set up Capivara 
+In your project, just install ``Capivara``
+```bash
+npm install --save capivara
+```
 
-### Example
+Then, create a Typescript file to bootstraps ``Capivara``. 
+```typescript
+import { Server } from 'capivara';
+
+Server.bootstraps().start(); // server will start on port 3001
+```
+
+Or you can [clone here](-), a quick start project from Github.
+
+## Docs
+
+Docs here
+
+## Example
 
 `File1.ts:`
 ```javascript
