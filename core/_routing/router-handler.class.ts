@@ -1,13 +1,13 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { RouteOptions } from './route-options.interface';
-import { RouteMethod } from './route-method.enum';
+import { HttpMethod } from '../types';
 
 export class RouterHandler {
 
     /**
      * Create a express ``Router`` from `routes` param.
      */
-    public static create(routes: Array<any>) : Router {
+    public static create(routes: Array<any>, beforeMiddlewares?: Array<any>) : Router {
         let routerTemp: Router = Router();
         for(let i: number = 0; i < routes.length; ++i) {
             if(!this.isItDecorated(routes[i]))
@@ -30,7 +30,7 @@ export class RouterHandler {
     private static push2Router(router: Router, route: any): void {
         let _route: any = new route();
         let opts: RouteOptions = _route._core_route_options;
-        if(opts.method === RouteMethod.GET) {
+        if(opts.method === HttpMethod.GET) {
             router.get(opts.path,
                 opts.beforeMiddlewares ? opts.beforeMiddlewares : [],
                 (req: Request, res: Response, next: NextFunction) => {

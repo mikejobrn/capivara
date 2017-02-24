@@ -9,7 +9,7 @@ declare namespace typress {
         | ErrorRequestHandler
         | (RequestHandler | ErrorRequestHandler)[];
 
-    enum RouteMethod {
+    enum HttpMethod {
         /**
          * The GET method requests transfer of a current selected representation
          * for the target resource.  GET is the primary mechanism of information
