@@ -8,6 +8,10 @@ let Router = (routerOptions: RouterOptions) => {
     return (target: Function) => {
         /** Annotation to identify an route type */
         (<Function>target).prototype._typress_core_router_identifier = 'router_type';
+
+        if(!routerOptions.mountPoint.match(/^\//g))
+            routerOptions.mountPoint = '/'+routerOptions.mountPoint;
+
         /** Saving routing options */
         (<Function>target).prototype._typress_core_router_options = routerOptions;
     }

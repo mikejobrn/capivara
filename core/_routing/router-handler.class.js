@@ -9,7 +9,7 @@ class RouterHandler {
         let routerTemp = express_1.Router();
         for (let i = 0; i < routes.length; ++i) {
             if (!this.isItDecorated(routes[i]))
-                throw 'You tried to pass an undecorated route';
+                throw Error('You tried to pass an undecorated route');
             this.push2Router(routerTemp, routes[i]);
         }
         return routerTemp;

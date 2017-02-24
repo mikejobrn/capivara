@@ -11,7 +11,7 @@ export class RouterHandler {
         let routerTemp: Router = Router();
         for(let i: number = 0; i < routes.length; ++i) {
             if(!this.isItDecorated(routes[i]))
-                throw 'You tried to pass an undecorated route';
+                throw Error('You tried to pass an undecorated route');
             this.push2Router(routerTemp, routes[i]);
         }
         return routerTemp;

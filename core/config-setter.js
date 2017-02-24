@@ -89,9 +89,7 @@ class ConfigSetter {
     }
     _isRouterOptionsDefined(router) {
         let routerd = new router();
-        return routerd._typress_core_router_options
-            ? true
-            : false;
+        return routerd._typress_core_router_options ? true : false;
     }
     _isRouteDecorated(route) {
         return (new route())._core_route_identifier ? true : false;

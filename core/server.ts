@@ -1,6 +1,7 @@
 import { Application as ExpressApplication, Router,
     Request, Response, NextFunction } from 'express';
 import * as express from 'express';
+import * as http from 'http';
 import { ConfigSetter } from './config-setter';
 
 /**
@@ -10,6 +11,7 @@ import { ConfigSetter } from './config-setter';
 export class Server {
 
     private _app: ExpressApplication;
+    private _server: http.Server;
 
     get app(): ExpressApplication {
         return this._app;
@@ -29,12 +31,17 @@ export class Server {
     }
 
     constructor(configSetter: ConfigSetter) {
+        this._server = undefined;
         this._app = express();
         configSetter.configure(this._app);
     }
 
     public start(port?: number): void {
-        this._app.listen(port? port: 3001);
+        this._server = this._app.listen(port? port: 3001);
+    }
+
+    public close(): void {
+        if(this._server) this._server.close();
     }
 
 }

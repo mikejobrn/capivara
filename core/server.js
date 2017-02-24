@@ -21,11 +21,16 @@ class Server {
         return new Server(configSetter);
     }
     constructor(configSetter) {
+        this._server = undefined;
         this._app = express();
         configSetter.configure(this._app);
     }
     start(port) {
-        this._app.listen(port ? port : 3001);
+        this._server = this._app.listen(port ? port : 3001);
+    }
+    close() {
+        if (this._server)
+            this._server.close();
     }
 }
 exports.Server = Server;

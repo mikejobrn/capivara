@@ -110,9 +110,7 @@ export class ConfigSetter {
 
     private _isRouterOptionsDefined(router: any): boolean {
         let routerd: any = new router();
-        return routerd._typress_core_router_options
-            ? true
-            : false;
+        return routerd._typress_core_router_options ? true : false;
     }
 
     private _isRouteDecorated(route: any): boolean {
