@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { RequestHandlerParams, RouterMiddlewareDef } from '../types';
 
 export interface RouterOptions {
 
@@ -10,9 +10,21 @@ export interface RouterOptions {
      *
      * Same as ``[callback, ...]`` param.
      *
+     * Example:
+     *
+     * ```
+     *  @Router({
+     *      beforeMiddlewares: [
+     *          { method: ALL, callback-function },
+     *          { method: GET, callback-function }
+     *      ]
+     *  })
+     *  class Roteador { }
+     * ```
+     *
      * See: http://expressjs.com/en/4x/api.html#router
     */
-    beforeMiddlewares?: Array<RequestHandler>,
+    beforeMiddlewares?: Array<RouterMiddlewareDef>,
 
     routes: Array<any>,
 

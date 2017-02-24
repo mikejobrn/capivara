@@ -33,7 +33,6 @@ describe('Milestone 0.0.6', () => {
             chai.expect(res).to.have.status(200);
             chai.expect(res).to.be.html;
             chai.expect((<any>res).text).to.be.equals('ab');
-
             done();
         })
 

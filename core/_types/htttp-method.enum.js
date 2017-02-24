@@ -17,4 +17,4 @@ var RouteMethod;
     RouteMethod[RouteMethod["DELETE"] = 6] = "DELETE";
 })(RouteMethod = exports.RouteMethod || (exports.RouteMethod = {}));
 // https://tools.ietf.org/html/rfc7231#section-4.3
-//# sourceMappingURL=route-method.enum.js.map
+//# sourceMappingURL=htttp-method.enum.js.map

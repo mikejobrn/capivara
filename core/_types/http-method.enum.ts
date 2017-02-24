@@ -1,17 +1,18 @@
 /**
- * Choose the Route Method
+ * Choose the HTTP Method
  *
  * There aren't all HTTP methods here,
  * just to simplify.
  */
-export enum RouteMethod {
+export enum HttpMethod {
     GET,
     HEAD,
     OPTIONS,
     POST,
     PATCH,
     PUT,
-    DELETE
+    DELETE,
+    ALL
 }
 
 // https://tools.ietf.org/html/rfc7231#section-4.3

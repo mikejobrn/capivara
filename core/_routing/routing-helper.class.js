@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class RoutingHelper {
     static resolvePath(path) {
         // look at issue #1

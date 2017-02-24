@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const routing_helper_class_1 = require("./routing-helper.class");
 /** Route Decorator */
 // It has to return RequestHandlerParams type

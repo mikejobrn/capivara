@@ -1,9 +1,9 @@
-import { Server, ConfigSetter,
-    Route, Router, RouteDef, RouteMethod } from '../../../index';
+import { Server, ConfigSetter, Route,
+    Router, RouteDef, HttpMethod } from '../../../index';
 
 @Route({
     path: 'minha-rota',
-    method: RouteMethod.GET
+    method: HttpMethod.GET
 })
 class Rota implements RouteDef {
     Route(req, res, next) {
@@ -13,7 +13,7 @@ class Rota implements RouteDef {
 
 @Route({
     path: '/minha-rota2',
-    method: RouteMethod.GET
+    method: HttpMethod.GET
 })
 class Rota2 implements RouteDef {
     Route(req, res, next) {
@@ -25,8 +25,23 @@ class Rota2 implements RouteDef {
     mountPoint: 'api',
     routes: [Rota, Rota2],
     beforeMiddlewares: [
-        (req, res, next) => { console.log('IT PASSED HERE'); (<any>req).temp = 'a'; next(); },
-        (req, res, next) => { (<any>req).temp += 'b'; next(); }
+        {
+            method: HttpMethod.ALL,
+            middleware: (req, res, next) => { (<any>req).temp = 'a'; next(); }
+        },
+        {
+            method: HttpMethod.POST,
+            middleware: (req, res, next) => { (<any>req).temp = 'd'; next(); }
+        },
+        {
+            method: HttpMethod.GET,
+            path: 'minha-rota3',
+            middleware: (req, res, next) => { (<any>req).temp += 'b'; next(); }
+        },
+        {
+            method: HttpMethod.GET,
+            middleware: (req, res, next) => { (<any>req).temp += 'b'; next(); }
+        }
     ]
 })
 class Roteador { }

@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const route_method_enum_1 = require("./route-method.enum");
+const types_1 = require("../types");
 class RouterHandler {
     /**
      * Create a express ``Router`` from `routes` param.
@@ -26,7 +27,7 @@ class RouterHandler {
     static push2Router(router, route) {
         let _route = new route();
         let opts = _route._core_route_options;
-        if (opts.method === route_method_enum_1.RouteMethod.GET) {
+        if (opts.method === types_1.HttpMethod.GET) {
             router.get(opts.path, opts.beforeMiddlewares ? opts.beforeMiddlewares : [], (req, res, next) => {
                 if (route.prototype.Route.length === 2)
                     _route.Route(req, res);

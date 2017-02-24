@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const types_1 = require("./types");
 const routing_1 = require("./routing");
@@ -66,6 +67,9 @@ class ConfigSetter {
             throw Error('You didnt defined options for router');
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
+        // adding beforeMiddlewares (issue #4)
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
             if (!this._isRouteDecorated(routerOptions.routes[i]))
                 throw Error('You tried to pass an undecorated route');
@@ -75,12 +79,6 @@ class ConfigSetter {
         if (routerOptions.routers)
             for (let i = 0; i < routerOptions.routers.length; ++i)
                 this._proccessRouter(routerOptions.routers[i], null, realRouter);
-        // temp
-        // adding beforeMiddlewares (issue #4)
-        if (routerOptions.beforeMiddlewares)
-            for (let i = 0; i < routerOptions.beforeMiddlewares.length; ++i) {
-                realRouter.all('*', routerOptions.beforeMiddlewares[i]);
-            }
         if (parent)
             parent.use(routerOptions.mountPoint, realRouter);
         else
@@ -103,14 +101,38 @@ class ConfigSetter {
     _proccessRoute(router, route) {
         let _route = new route();
         let opts = _route._core_route_options;
-        if (opts.method === routing_1.RouteMethod.GET) {
-            router.get(opts.path, opts.beforeMiddlewares ? opts.beforeMiddlewares : [], (req, res, next) => {
-                if (route.prototype.Route.length === 2)
-                    _route.Route(req, res);
-                else if (route.prototype.Route.length === 3)
-                    _route.Route(req, res, next);
-            });
-        }
+        this._resolveMethodFunction(router, opts.method, opts.path, (req, res, next) => {
+            if (route.prototype.Route.length === 2)
+                _route.Route(req, res);
+            else if (route.prototype.Route.length === 3)
+                _route.Route(req, res, next);
+        }, opts.beforeMiddlewares);
+    }
+    _configureRouterBeforeMiddlewares(router, middlewares) {
+        if (!middlewares)
+            return;
+        middlewares.forEach((el) => {
+            this._resolveMethodFunction(router, el.method, el.path, el.middleware);
+        });
+    }
+    _resolveMethodFunction(caller, method, path, func, middlewares) {
+        let resolvedPath = path ? routing_1.RoutingHelper.resolvePath(path) : '*';
+        let resolvedMethod = 'all';
+        if (method === types_1.HttpMethod.DELETE)
+            resolvedMethod = 'delete';
+        else if (method === types_1.HttpMethod.GET)
+            resolvedMethod = 'get';
+        else if (method === types_1.HttpMethod.HEAD)
+            resolvedMethod = 'head';
+        else if (method === types_1.HttpMethod.OPTIONS)
+            resolvedMethod = 'options';
+        else if (method === types_1.HttpMethod.PATCH)
+            resolvedMethod = 'patch';
+        else if (method === types_1.HttpMethod.POST)
+            resolvedMethod = 'post';
+        else if (method === types_1.HttpMethod.PUT)
+            resolvedMethod = 'put';
+        caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 }
 exports.ConfigSetter = ConfigSetter;
