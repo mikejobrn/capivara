@@ -1,12 +1,12 @@
 "use strict";
+const routing_helper_class_1 = require("./routing-helper.class");
 /** Route Decorator */
 // It has to return RequestHandlerParams type
 let Router = (routerOptions) => {
     return (target) => {
         /** Annotation to identify an route type */
         target.prototype._typress_core_router_identifier = 'router_type';
-        if (!routerOptions.mountPoint.match(/^\//g))
-            routerOptions.mountPoint = '/' + routerOptions.mountPoint;
+        routerOptions.mountPoint = routing_helper_class_1.RoutingHelper.resolvePath(routerOptions.mountPoint);
         /** Saving routing options */
         target.prototype._typress_core_router_options = routerOptions;
     };

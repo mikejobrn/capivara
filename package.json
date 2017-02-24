@@ -4,7 +4,7 @@
   "description": "Library to use Express + Typescript",
   "scripts": {
     "start": "grunt && concurrently \"grunt watch\" ",
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",

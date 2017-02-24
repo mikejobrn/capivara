@@ -5,7 +5,7 @@ class RouterHandler {
     /**
      * Create a express ``Router`` from `routes` param.
      */
-    static create(routes) {
+    static create(routes, beforeMiddlewares) {
         let routerTemp = express_1.Router();
         for (let i = 0; i < routes.length; ++i) {
             if (!this.isItDecorated(routes[i]))

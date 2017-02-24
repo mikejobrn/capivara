@@ -7,7 +7,7 @@ export class RouterHandler {
     /**
      * Create a express ``Router`` from `routes` param.
      */
-    public static create(routes: Array<any>) : Router {
+    public static create(routes: Array<any>, beforeMiddlewares?: Array<any>) : Router {
         let routerTemp: Router = Router();
         for(let i: number = 0; i < routes.length; ++i) {
             if(!this.isItDecorated(routes[i]))

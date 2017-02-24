@@ -1,6 +1,7 @@
 import { NextFunction } from 'express';
 import { Response, Request } from 'express';
 import { RouterOptions } from './router-options.interface';
+import { RoutingHelper } from './routing-helper.class';
 
 /** Route Decorator */
 // It has to return RequestHandlerParams type
@@ -9,8 +10,7 @@ let Router = (routerOptions: RouterOptions) => {
         /** Annotation to identify an route type */
         (<Function>target).prototype._typress_core_router_identifier = 'router_type';
 
-        if(!routerOptions.mountPoint.match(/^\//g))
-            routerOptions.mountPoint = '/'+routerOptions.mountPoint;
+        routerOptions.mountPoint = RoutingHelper.resolvePath(routerOptions.mountPoint);
 
         /** Saving routing options */
         (<Function>target).prototype._typress_core_router_options = routerOptions;

@@ -1,6 +1,7 @@
 import { NextFunction } from 'express';
 import { Response, Request } from 'express';
 import { RouteOptions } from './route-options.interface';
+import { RoutingHelper } from './routing-helper.class';
 
 /** Route Decorator */
 // It has to return RequestHandlerParams type
@@ -20,8 +21,7 @@ let Route = (routeOptions: RouteOptions) => {
         /** Annotation to identify an route type */
         (<Function>target).prototype._core_route_identifier = 'route_type';
 
-        if(!routeOptions.path.match(/^\//g))
-            routeOptions.path = '/'+routeOptions.path;
+        routeOptions.path = RoutingHelper.resolvePath(routeOptions.path);
 
         /** Saving routing options */
         (<Function>target).prototype._core_route_options = routeOptions;

@@ -70,14 +70,14 @@ export class ConfigSetter {
 
     /** It configures routes */
     private _configureRouters(app: ExpressApplication): void {
-        this._routers.forEach((router: any, index: number) => {
+        this._routers.forEach((router: any) => {
             this._proccessRouter(router, app);
         });
     }
 
     private _proccessRouter(router: any, app: ExpressApplication, parent?: Router): void {
-        if(!this._isRouterDecorated(router)) throw 'You tried to proccess an undecorated router';
-        if(!this._isRouterOptionsDefined(router)) throw 'You didnt defined options for router';
+        if(!this._isRouterDecorated(router)) throw Error('You tried to proccess an undecorated router');
+        if(!this._isRouterOptionsDefined(router)) throw Error('You didnt defined options for router');
 
         let routerOptions: RouterOptions = (new router())._typress_core_router_options;
 
@@ -85,7 +85,7 @@ export class ConfigSetter {
 
         for(let i: number = 0; i < routerOptions.routes.length; ++i) {
             if(!this._isRouteDecorated(routerOptions.routes[i]))
-                throw 'You tried to pass an undecorated route';
+                throw Error('You tried to pass an undecorated route');
             this._proccessRoute(realRouter, routerOptions.routes[i]);
         }
 
@@ -93,6 +93,14 @@ export class ConfigSetter {
         if(routerOptions.routers)
             for(let i: number = 0; i < routerOptions.routers.length; ++i)
                 this._proccessRouter(routerOptions.routers[i], null, realRouter);
+
+        // temp
+        // adding beforeMiddlewares (issue #4)
+        if(routerOptions.beforeMiddlewares)
+            for(let i=0; i<routerOptions.beforeMiddlewares.length; ++i) {
+                realRouter.all('*', routerOptions.beforeMiddlewares[i]);
+            }
+
 
         if(parent)
             parent.use(routerOptions.mountPoint, realRouter);
