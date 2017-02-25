@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const routing_helper_class_1 = require("./routing-helper.class");
 /** Route Decorator */
 // It has to return RequestHandlerParams type
 let Route = (routeOptions) => {
@@ -13,8 +15,7 @@ let Route = (routeOptions) => {
             throw Error('error - Route function is missing params');
         /** Annotation to identify an route type */
         target.prototype._core_route_identifier = 'route_type';
-        if (!routeOptions.path.match(/^\//g))
-            routeOptions.path = '/' + routeOptions.path;
+        routeOptions.path = routing_helper_class_1.RoutingHelper.resolvePath(routeOptions.path);
         /** Saving routing options */
         target.prototype._core_route_options = routeOptions;
     };

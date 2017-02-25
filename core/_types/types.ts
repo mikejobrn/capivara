@@ -7,3 +7,7 @@ import {
 export type RequestHandlerParams = RequestHandler
     | ErrorRequestHandler
     | (RequestHandler | ErrorRequestHandler)[];
+
+export type RequestHandlerBaseParams = RequestHandler | ErrorRequestHandler;
+
+

@@ -1,13 +1,13 @@
 import { Route } from './route.decorator';
-import { RouteMethod } from './route-method.enum';
 import { RequestHandler } from 'express';
+import { HttpMethod } from '../types';
 
 export interface RouteOptions {
 
     /**
      * A HTTP method.
      */
-    method: RouteMethod,
+    method: HttpMethod,
 
     /** The path that will represent the route */
     path: string,

@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "lib": [
+            "es2016",
+            "dom"
+        ],
+        "sourceMap": true,
+        "typeRoots": [
+        "../node_modules/@types"
+        ]
+    },
+    "include": [
+        "**/**/**.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

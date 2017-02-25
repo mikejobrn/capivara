@@ -1,9 +1,9 @@
 import { Application as ExpressApplication, Router,
     Request, Response, NextFunction } from 'express';
 import { ServerMode, RequestHandlerParams,
-    MiddlewareConfig } from './types';
-import { RouterOptions, RouteOptions,
-    RouteMethod } from './routing'
+    MiddlewareConfig, HttpMethod,
+    RouterMiddlewareDef, RequestHandlerBaseParams } from './types';
+import { RouterOptions, RouteOptions, RoutingHelper } from './routing'
 
 export class ConfigSetter {
 
@@ -70,22 +70,26 @@ export class ConfigSetter {
 
     /** It configures routes */
     private _configureRouters(app: ExpressApplication): void {
-        this._routers.forEach((router: any, index: number) => {
+        this._routers.forEach((router: any) => {
             this._proccessRouter(router, app);
         });
     }
 
     private _proccessRouter(router: any, app: ExpressApplication, parent?: Router): void {
-        if(!this._isRouterDecorated(router)) throw 'You tried to proccess an undecorated router';
-        if(!this._isRouterOptionsDefined(router)) throw 'You didnt defined options for router';
+        if(!this._isRouterDecorated(router)) throw Error('You tried to proccess an undecorated router');
+        if(!this._isRouterOptionsDefined(router)) throw Error('You didnt defined options for router');
 
         let routerOptions: RouterOptions = (new router())._typress_core_router_options;
 
         let realRouter: Router = Router();
 
+        // adding beforeMiddlewares (issue #4)
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+
+        // configuring routes
         for(let i: number = 0; i < routerOptions.routes.length; ++i) {
             if(!this._isRouteDecorated(routerOptions.routes[i]))
-                throw 'You tried to pass an undecorated route';
+                throw Error('You tried to pass an undecorated route');
             this._proccessRoute(realRouter, routerOptions.routes[i]);
         }
 
@@ -120,16 +124,34 @@ export class ConfigSetter {
     private _proccessRoute(router: Router, route: any): void {
         let _route: any = new route();
         let opts: RouteOptions = _route._core_route_options;
-        if(opts.method === RouteMethod.GET) {
-            router.get(opts.path,
-                opts.beforeMiddlewares ? opts.beforeMiddlewares : [],
-                (req: Request, res: Response, next: NextFunction) => {
-                    if(route.prototype.Route.length === 2)
-                        _route.Route(req, res);
-                    else if(route.prototype.Route.length === 3)
-                        _route.Route(req, res, next);
-                });
-        }
+        this._resolveMethodFunction(router, opts.method, opts.path,
+            (req: Request, res: Response, next: NextFunction) => {
+                if(route.prototype.Route.length === 2)
+                    _route.Route(req, res);
+                else if(route.prototype.Route.length === 3)
+                    _route.Route(req, res, next);
+            }, opts.beforeMiddlewares);
+    }
+
+    private _configureRouterBeforeMiddlewares(router: Router, middlewares: Array<RouterMiddlewareDef>) {
+        if(!middlewares) return;
+        middlewares.forEach((el: RouterMiddlewareDef) => {
+            this._resolveMethodFunction(router, el.method, el.path, el.middleware);
+        });
+    }
+
+    private _resolveMethodFunction(caller: Router, method: HttpMethod, path: string,
+    func: RequestHandlerBaseParams, middlewares?: RequestHandlerParams) {
+        let resolvedPath: string = path ? RoutingHelper.resolvePath(path) : '*';
+        let resolvedMethod: string = 'all';
+        if(method === HttpMethod.DELETE) resolvedMethod = 'delete';
+        else if(method === HttpMethod.GET) resolvedMethod = 'get';
+        else if(method === HttpMethod.HEAD) resolvedMethod = 'head';
+        else if(method === HttpMethod.OPTIONS) resolvedMethod = 'options';
+        else if(method === HttpMethod.PATCH) resolvedMethod = 'patch';
+        else if(method === HttpMethod.POST) resolvedMethod = 'post';
+        else if(method === HttpMethod.PUT) resolvedMethod = 'put';
+        caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 
 }

@@ -25,19 +25,17 @@ import { Server } from 'capivara';
 Server.bootstraps().start(); // server will start on port 3001
 ```
 
-Or you can [clone here](-), a quick start project from Github.
-
-## Docs
-
-Docs here
+<!--Or you can [clone here](-), a quick start project from Github.-->
 
 ## Example
 
 `File1.ts:`
-```javascript
+```typescript
+import { Route, RouteDef, HttpMethod } from 'capivara';
+
 @Route({
     path: '/',
-    method: 'get'
+    method: HttpMethod.GET
 })
 export class MyController implements RouteDef {
 
@@ -45,7 +43,7 @@ export class MyController implements RouteDef {
         console.log('Just a test');
     }
 
-    Route(req: Request, res: Response, Next: NextFunction) {
+    Route(req, res, next) {
         this._test();
         res.send('Hello World');
     }
@@ -54,8 +52,9 @@ export class MyController implements RouteDef {
 ```
 
 `Router.ts`
-```javascript
+```typescript
 import { MyController } from './File1'
+import { Router } from 'capivara';
 
 @Router({
     mountPoint: '/api',
@@ -64,3 +63,28 @@ import { MyController } from './File1'
 })
 export class MyRouter { }
 ```
+
+`Bootstrap.ts`
+```typescript 
+import { ConfigSetter, Server } from 'capivara';
+import { MyRouter } from './Router';
+
+let config: ConfigSetter = new ConfigSetter();
+
+/** use middlewares */
+config.useMiddleware(bodyParser.json());
+config.useMiddleware(compression());
+
+/** define routers */
+config.setRouter(MyRouter);
+
+/** configure server */
+let server: Server = Server.bootstraps(config);
+
+/** start server */
+server.start(4000);
+
+```
+
+## Docs
+For now, looks at code. It's in development, so, big changes can happen.
