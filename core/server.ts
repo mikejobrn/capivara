@@ -26,14 +26,15 @@ export class Server {
      * The bootstraps function exists only to
      * setup all configurations of the server.
      */
-    public static bootstraps(configSetter: ConfigSetter): Server {
+    public static bootstraps(configSetter?: ConfigSetter): Server {
         return new Server(configSetter);
     }
 
     constructor(configSetter: ConfigSetter) {
         this._server = undefined;
         this._app = express();
-        configSetter.configure(this._app);
+        if(configSetter)
+            configSetter.configure(this._app);
     }
 
     public start(port?: number): void {
