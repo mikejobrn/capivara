@@ -31,11 +31,11 @@ Server.bootstraps().start(); // server will start on port 3001
 
 `File1.ts:`
 ```typescript
-import { Route, RouteDef } from 'capivara';
+import { Route, RouteDef, HttpMethod } from 'capivara';
 
 @Route({
     path: '/',
-    method: 'get'
+    method: HttpMethod.GET
 })
 export class MyController implements RouteDef {
 
