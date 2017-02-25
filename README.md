@@ -6,6 +6,7 @@
 
 <div align="center">
     <img src="https://img.shields.io/badge/Typescript-latest-blue.svg">
+    <img src="https://travis-ci.org/victorschinaider/capivara.svg?branch=master">
 </div>
 
 **In development.**
