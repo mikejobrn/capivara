@@ -72,8 +72,8 @@ import { MyRouter } from './Router';
 let config: ConfigSetter = new ConfigSetter();
 
 /** use middlewares */
-config.useMiddleware(bodyParser.json());
-config.useMiddleware(compression());
+config.middleware(bodyParser.json());
+config.middleware(compression());
 
 /** define routers */
 config.setRouter(MyRouter);

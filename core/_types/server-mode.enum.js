@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Defines in what mode the server
  * will startup.
  */
-var ServerMode;
-(function (ServerMode) {
-    ServerMode[ServerMode["DEVELOPMENT"] = 0] = "DEVELOPMENT";
-    ServerMode[ServerMode["TEST"] = 1] = "TEST";
-    ServerMode[ServerMode["PRODUCTION"] = 2] = "PRODUCTION";
-    ServerMode[ServerMode["ANY"] = 3] = "ANY";
-})(ServerMode = exports.ServerMode || (exports.ServerMode = {}));
+var Environment;
+(function (Environment) {
+    Environment[Environment["DEVELOPMENT"] = 0] = "DEVELOPMENT";
+    Environment[Environment["TEST"] = 1] = "TEST";
+    Environment[Environment["PRODUCTION"] = 2] = "PRODUCTION";
+    Environment[Environment["ANY"] = 3] = "ANY";
+})(Environment = exports.Environment || (exports.Environment = {}));
 //# sourceMappingURL=server-mode.enum.js.map
