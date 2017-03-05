@@ -1,5 +1,5 @@
 import {
-    Router, RequestHandler,
+    RequestHandler,
     ErrorRequestHandler, Request,
     Response, NextFunction } from 'express';
 
