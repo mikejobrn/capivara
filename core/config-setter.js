@@ -68,7 +68,7 @@ class ConfigSetter {
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
         // adding beforeMiddlewares (issue #4)
-        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
         // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
             if (!this._isRouteDecorated(routerOptions.routes[i]))
@@ -106,7 +106,7 @@ class ConfigSetter {
                 _route.Route(req, res);
             else if (route.prototype.Route.length === 3)
                 _route.Route(req, res, next);
-        }, opts.beforeMiddlewares);
+        }, opts.middlewares);
     }
     _configureRouterBeforeMiddlewares(router, middlewares) {
         if (!middlewares)

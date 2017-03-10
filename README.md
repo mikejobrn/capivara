@@ -10,7 +10,7 @@
 
 **In development.**
 
-`Capivara` helps you to create a modularized express application using `Typescript`.
+`Capivara` helps you to create a modularized express application using `Typescript`, and it helps you to make your app more `testable`.
 
 ## Set up Capivara 
 In your project, just install ``Capivara``

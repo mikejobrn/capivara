@@ -84,7 +84,7 @@ export class ConfigSetter {
         let realRouter: Router = Router();
 
         // adding beforeMiddlewares (issue #4)
-        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
 
         // configuring routes
         for(let i: number = 0; i < routerOptions.routes.length; ++i) {
@@ -130,7 +130,7 @@ export class ConfigSetter {
                     _route.Route(req, res);
                 else if(route.prototype.Route.length === 3)
                     _route.Route(req, res, next);
-            }, opts.beforeMiddlewares);
+            }, opts.middlewares);
     }
 
     private _configureRouterBeforeMiddlewares(router: Router, middlewares: Array<RouterMiddlewareDef>) {
@@ -151,7 +151,7 @@ export class ConfigSetter {
         else if(method === HttpMethod.PATCH) resolvedMethod = 'patch';
         else if(method === HttpMethod.POST) resolvedMethod = 'post';
         else if(method === HttpMethod.PUT) resolvedMethod = 'put';
-        caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
+        (<any>caller)[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 
 }

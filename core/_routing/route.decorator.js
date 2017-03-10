@@ -10,9 +10,9 @@ let Route = (routeOptions) => {
          * and if it has min of two params and max three
          * */
         if (!target.prototype.Route)
-            throw Error('error - Route function is missing');
+            throw Error('Route function is missing');
         else if (!(target.prototype.Route.length > 1 && target.prototype.Route.length < 4))
-            throw Error('error - Route function is missing params');
+            throw Error('Route function is missing params');
         /** Annotation to identify an route type */
         target.prototype._core_route_identifier = 'route_type';
         routeOptions.path = routing_helper_class_1.RoutingHelper.resolvePath(routeOptions.path);
