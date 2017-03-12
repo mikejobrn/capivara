@@ -1,6 +1,6 @@
 import { Application as ExpressApplication, Router,
     Request, Response, NextFunction } from 'express';
-import { ServerMode, RequestHandlerParams,
+import { Environment, RequestHandlerParams,
     MiddlewareConfig, HttpMethod,
     RouterMiddlewareDef, RequestHandlerBaseParams } from './types';
 import { RouterOptions, RouteOptions, RoutingHelper } from './routing'
@@ -9,24 +9,24 @@ export class ConfigSetter {
 
     private _middlewares: Array<MiddlewareConfig>;
     private _routers: Array<any>;
-    private _serverMode: ServerMode;
+    private _env: Environment;
 
     constructor() {
-        this._serverMode = ServerMode.DEVELOPMENT;
+        this.environment = Environment.DEVELOPMENT;
         this._middlewares = [];
         this._routers = [];
     }
 
-    public get serverMode(): ServerMode {
-        return this._serverMode;
+    public get environment(): Environment {
+        return this._env;
     }
 
     /**
      * Define in what mode the server will be running
      */
-    public set serverMode(serverMode: ServerMode) {
-        if(serverMode === ServerMode.ANY) ServerMode.DEVELOPMENT;
-        this._serverMode = serverMode;
+    public set environment(env: Environment) {
+        if(env === Environment.ANY) Environment.DEVELOPMENT;
+        this._env= env;
     }
 
     /**
@@ -35,13 +35,13 @@ export class ConfigSetter {
      * Same as ``app.use(middleware)`` when using
      * javascript to work with Express.
      *
-     * ``serverMode``: it indicates what the servermode that
+     * ``environment``: it indicates what the servermode that
      * the middleware will running
      */
-    public useMiddleware(middleware: RequestHandlerParams, serverMode?: ServerMode): void {
+    public middleware(middleware: RequestHandlerParams, environment?: Environment): void {
         this._middlewares.push({
             requestHandlerParam: middleware,
-            serverMode: serverMode ? serverMode : ServerMode.ANY
+            environment: environment ? environment : Environment.ANY
         });
     }
 
@@ -54,7 +54,7 @@ export class ConfigSetter {
     /** It configures middlewares */
     private _configureMiddlewares(app: ExpressApplication): void {
         this._middlewares.forEach((val: MiddlewareConfig, index: number) => {
-            if(val.serverMode === ServerMode.ANY || val.serverMode === this.serverMode)
+            if(val.environment === Environment.ANY || val.environment === this.environment)
                 app.use(val.requestHandlerParam);
         });
     }
@@ -84,7 +84,7 @@ export class ConfigSetter {
         let realRouter: Router = Router();
 
         // adding beforeMiddlewares (issue #4)
-        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
 
         // configuring routes
         for(let i: number = 0; i < routerOptions.routes.length; ++i) {
@@ -130,7 +130,7 @@ export class ConfigSetter {
                     _route.Route(req, res);
                 else if(route.prototype.Route.length === 3)
                     _route.Route(req, res, next);
-            }, opts.beforeMiddlewares);
+            }, opts.middlewares);
     }
 
     private _configureRouterBeforeMiddlewares(router: Router, middlewares: Array<RouterMiddlewareDef>) {
@@ -151,7 +151,7 @@ export class ConfigSetter {
         else if(method === HttpMethod.PATCH) resolvedMethod = 'patch';
         else if(method === HttpMethod.POST) resolvedMethod = 'post';
         else if(method === HttpMethod.PUT) resolvedMethod = 'put';
-        caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
+        (<any>caller)[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 
 }

@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 
         watch: {
             ts: {
-                files: ['**/**.ts', '!node_modules/**/**'],
+                files: ['**/**.ts', '!node_modules/**/**', '!example/**/**'],
                 tasks: ['ts:default']
             }
         },
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                     removeComments: false,
                     noImplicitAny: false
                 },
-                src: ['**/**.ts', '!node_modules/**/**'],
+                src: ['**/**.ts', '!node_modules/**/**', '!example/**/**'],
             }
         }
 

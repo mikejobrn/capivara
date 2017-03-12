@@ -1,5 +1,5 @@
 import {
-    Router, RequestHandler,
+    RequestHandler,
     ErrorRequestHandler, Request,
     Response, NextFunction } from 'express';
 
@@ -13,7 +13,7 @@ declare type RequestHandlerBaseParams = RequestHandler | ErrorRequestHandler;
  * It indicates in what mode
  * the server is running.
  */
-declare enum ServerMode {
+declare enum Environment {
     DEVELOPMENT,
     TEST,
     PRODUCTION,
@@ -86,8 +86,8 @@ declare enum HttpMethod {
  */
 declare class ConfigSetter {
 
-    /** Get the ServerMode of ConfigSetter */
-    serverMode(): ServerMode;
+    /** Get the Environment of ConfigSetter */
+    environment(): Environment;
 
     constructor();
 
@@ -95,7 +95,7 @@ declare class ConfigSetter {
      * Define in what mode the server
      * will be running
      */
-    serverMode(serverMode: ServerMode);
+    environment(environment: Environment);
 
     /** Push routers to configuration  */
     public setRouter(routers: any|Array<any>) : void;
@@ -106,11 +106,11 @@ declare class ConfigSetter {
      * Same as ``app.use(middleware)`` when using
      * javascript to work with Express.
      *
-     * ``serverMode``: it indicates what the servermode that
+     * ``environment``: it indicates what the servermode that
      * the middleware will running
      */
-    public useMiddleware(middleware: RequestHandlerParams,
-        serverMode?: ServerMode): void
+    public middleware(middleware: RequestHandlerParams,
+        environment?: Environment): void
 
 }
 
@@ -224,7 +224,7 @@ declare interface RouterOptions {
 
 interface MiddlewareConfig {
     requestHandlerParam: RequestHandlerParams,
-    serverMode: ServerMode
+    environment: Environment
 }
 
 /**

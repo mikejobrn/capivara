@@ -17,6 +17,10 @@ export class Server {
         return this._app;
     }
 
+    get server(): http.Server {
+        return this._server;
+    }
+
     /**
      * Bootstraps the ExpressApplication.
      *

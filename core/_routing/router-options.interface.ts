@@ -14,7 +14,7 @@ export interface RouterOptions {
      *
      * ```
      *  @Router({
-     *      beforeMiddlewares: [
+     *      middlewares: [
      *          { method: ALL, callback-function },
      *          { method: GET, callback-function }
      *      ]
@@ -24,7 +24,7 @@ export interface RouterOptions {
      *
      * See: http://expressjs.com/en/4x/api.html#router
     */
-    beforeMiddlewares?: Array<RouterMiddlewareDef>,
+    middlewares?: Array<RouterMiddlewareDef>,
 
     routes: Array<any>,
 

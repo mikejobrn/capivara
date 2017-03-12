@@ -9,6 +9,9 @@ class Server {
     get app() {
         return this._app;
     }
+    get server() {
+        return this._server;
+    }
     /**
      * Bootstraps the ExpressApplication.
      *
@@ -24,7 +27,8 @@ class Server {
     constructor(configSetter) {
         this._server = undefined;
         this._app = express();
-        configSetter.configure(this._app);
+        if (configSetter)
+            configSetter.configure(this._app);
     }
     start(port) {
         this._server = this._app.listen(port ? port : 3001);

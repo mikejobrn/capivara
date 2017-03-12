@@ -5,20 +5,20 @@ const types_1 = require("./types");
 const routing_1 = require("./routing");
 class ConfigSetter {
     constructor() {
-        this._serverMode = types_1.ServerMode.DEVELOPMENT;
+        this.environment = types_1.Environment.DEVELOPMENT;
         this._middlewares = [];
         this._routers = [];
     }
-    get serverMode() {
-        return this._serverMode;
+    get environment() {
+        return this._env;
     }
     /**
      * Define in what mode the server will be running
      */
-    set serverMode(serverMode) {
-        if (serverMode === types_1.ServerMode.ANY)
-            types_1.ServerMode.DEVELOPMENT;
-        this._serverMode = serverMode;
+    set environment(env) {
+        if (env === types_1.Environment.ANY)
+            types_1.Environment.DEVELOPMENT;
+        this._env = env;
     }
     /**
      * Define middleware functions to the app.
@@ -26,13 +26,13 @@ class ConfigSetter {
      * Same as ``app.use(middleware)`` when using
      * javascript to work with Express.
      *
-     * ``serverMode``: it indicates what the servermode that
+     * ``environment``: it indicates what the servermode that
      * the middleware will running
      */
-    useMiddleware(middleware, serverMode) {
+    middleware(middleware, environment) {
         this._middlewares.push({
             requestHandlerParam: middleware,
-            serverMode: serverMode ? serverMode : types_1.ServerMode.ANY
+            environment: environment ? environment : types_1.Environment.ANY
         });
     }
     /** Configure an app with definitions at ConfigSetter. */
@@ -43,7 +43,7 @@ class ConfigSetter {
     /** It configures middlewares */
     _configureMiddlewares(app) {
         this._middlewares.forEach((val, index) => {
-            if (val.serverMode === types_1.ServerMode.ANY || val.serverMode === this.serverMode)
+            if (val.environment === types_1.Environment.ANY || val.environment === this.environment)
                 app.use(val.requestHandlerParam);
         });
     }
@@ -68,7 +68,7 @@ class ConfigSetter {
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
         // adding beforeMiddlewares (issue #4)
-        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
         // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
             if (!this._isRouteDecorated(routerOptions.routes[i]))
@@ -106,7 +106,7 @@ class ConfigSetter {
                 _route.Route(req, res);
             else if (route.prototype.Route.length === 3)
                 _route.Route(req, res, next);
-        }, opts.beforeMiddlewares);
+        }, opts.middlewares);
     }
     _configureRouterBeforeMiddlewares(router, middlewares) {
         if (!middlewares)

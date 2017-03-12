@@ -19,5 +19,5 @@ export interface RouteOptions {
      *
      * See: http://expressjs.com/en/4x/api.html#router.METHOD
     */
-    beforeMiddlewares?: Array<RequestHandler>
+    middlewares?: Array<RequestHandler>
 }
