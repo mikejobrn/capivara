@@ -9,6 +9,9 @@ class Server {
     get app() {
         return this._app;
     }
+    get server() {
+        return this._server;
+    }
     /**
      * Bootstraps the ExpressApplication.
      *

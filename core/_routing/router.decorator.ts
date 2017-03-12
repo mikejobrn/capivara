@@ -17,7 +17,4 @@ let Router = (routerOptions: RouterOptions) => {
     }
 }
 
-// https://gist.github.com/remojansen/16c661a7afd68e22ac6e
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes
-
 export { Router };

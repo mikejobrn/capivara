@@ -5,7 +5,7 @@ require("chai-http");
 const chai = require("chai");
 const server_1 = require("./server");
 chai.use(require('chai-http'));
-describe('Milestone 0.0.6', () => {
+describe('Milestone 0.0.6: ', () => {
     before(() => {
         server_1.Server006.start();
     });

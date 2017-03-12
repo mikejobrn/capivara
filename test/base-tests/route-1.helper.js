@@ -7,12 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../index");
-let ClassWithoutRouteFunction = class ClassWithoutRouteFunction {
+let Route1 = class Route1 {
+    Route(req, res) {
+    }
 };
-ClassWithoutRouteFunction = __decorate([
+Route1 = __decorate([
     index_1.Route({
         path: '/',
         method: index_1.HttpMethod.GET
     })
-], ClassWithoutRouteFunction);
-//# sourceMappingURL=router.helper.js.map
+], Route1);
+exports.Route1 = Route1;
+//# sourceMappingURL=route-1.helper.js.map

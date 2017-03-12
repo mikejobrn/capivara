@@ -1,17 +1,93 @@
 import 'mocha';
 import 'chai-http';
 import * as chai from 'chai';
+import { Server1 } from './server-1.helper';
+import { Route } from '../../index';
+
 chai.use(require('chai-http'));
 
-import { ClassWithoutRouteFunction } from './route1.helper';
+describe('Route Decorator: ', () => {
 
-describe('Route Decorator', () => {
+    before(() => {
+        Server1.start(3030);
+    })
 
     it('Route without Route function should throws an error', () => {
+        chai.expect(() => {
 
-        console.log(ClassWithoutRouteFunction)
+            @Route({
+                path: '',
+                method: 0
+            })
+            class Test { }
 
-        chai.expect(() => {  }).to.throws();
+        }).to.throws('Route function is missing');
     });
+
+    it('Routes with less than two parameters should throws an error', () => {
+        chai.expect(() => {
+
+            @Route({
+                path: '',
+                method: 0
+            })
+            class Test {
+
+                Route(req: any) { }
+
+            }
+
+        }).to.throws('Route function is missing params');
+    });
+
+    it('Routes with more than three parameters should throws an error', () => {
+        chai.expect(() => {
+
+            @Route({
+                path: '',
+                method: 0
+            })
+            class Test {
+
+                Route(req: any, res: any, next: any, wrong: any) { }
+
+            }
+
+        }).to.throws('Route function is missing params');
+    });
+
+    it('GET HTTP method should works' , (done) => {
+        chai.request(Server1.server)
+        .get('/')
+        .end((err, res) => {
+            chai.expect(res.status).to.be.equals(200);
+            chai.expect((<any>res).text).to.be.equals('hello world');
+            done();
+        })
+    })
+
+    it('POST HTTP method should works' , (done) => {
+        chai.request(Server1.server)
+        .post('/post-method')
+        .end((err, res) => {
+            chai.expect(res.status).to.be.equals(200);
+            chai.expect((<any>res).text).to.be.equals('method post');
+            done();
+        })
+    })
+
+    it('DELETE HTTP method should works' , (done) => {
+        chai.request(Server1.server)
+        .del('/path1/delete-method')
+        .end((err, res) => {
+            chai.expect(res.status).to.be.equals(200);
+            chai.expect((<any>res).text).to.be.equals('method delete');
+            done();
+        })
+    })
+
+    after(() => {
+        Server1.close();
+    })
 
 })

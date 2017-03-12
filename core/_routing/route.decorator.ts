@@ -19,17 +19,14 @@ let Route = (routeOptions: RouteOptions) => {
             throw Error('Route function is missing params');
 
         /** Annotation to identify an route type */
-        (<Function>target).prototype._core_route_identifier = 'route_type';
+        target.prototype._core_route_identifier = 'route_type';
 
         routeOptions.path = RoutingHelper.resolvePath(routeOptions.path);
 
         /** Saving routing options */
-        (<Function>target).prototype._core_route_options = routeOptions;
+        target.prototype._core_route_options = routeOptions;
 
     }
 }
-
-// https://gist.github.com/remojansen/16c661a7afd68e22ac6e
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes
 
 export { Route };
