@@ -83,7 +83,7 @@ export class ConfigSetter {
 
         let realRouter: Router = Router();
 
-        // adding beforeMiddlewares (issue #4)
+        // adding middlewares (issue #4)
         this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
 
         // configuring routes
@@ -141,17 +141,19 @@ export class ConfigSetter {
     }
 
     private _resolveMethodFunction(caller: Router, method: HttpMethod, path: string,
-    func: RequestHandlerBaseParams, middlewares?: RequestHandlerParams) {
+        func: RequestHandlerBaseParams, middlewares?: RequestHandlerParams) {
+
         let resolvedPath: string = path ? RoutingHelper.resolvePath(path) : '*';
         let resolvedMethod: string = 'all';
-        if(method === HttpMethod.DELETE) resolvedMethod = 'delete';
-        else if(method === HttpMethod.GET) resolvedMethod = 'get';
-        else if(method === HttpMethod.HEAD) resolvedMethod = 'head';
-        else if(method === HttpMethod.OPTIONS) resolvedMethod = 'options';
-        else if(method === HttpMethod.PATCH) resolvedMethod = 'patch';
-        else if(method === HttpMethod.POST) resolvedMethod = 'post';
-        else if(method === HttpMethod.PUT) resolvedMethod = 'put';
+        if(method === HttpMethod.DELETE) { resolvedMethod = 'delete'; }
+        else if(method === HttpMethod.GET) { resolvedMethod = 'get'; }
+        else if(method === HttpMethod.HEAD) { resolvedMethod = 'head'; }
+        else if(method === HttpMethod.OPTIONS) { resolvedMethod = 'options'; }
+        else if(method === HttpMethod.PATCH) { resolvedMethod = 'patch'; }
+        else if(method === HttpMethod.POST) { resolvedMethod = 'post'; }
+        else if(method === HttpMethod.PUT) { resolvedMethod = 'put'; }
         (<any>caller)[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
+
     }
 
 }

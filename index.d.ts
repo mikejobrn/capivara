@@ -1,11 +1,15 @@
 import {
     RequestHandler,
-    ErrorRequestHandler, Request,
-    Response, NextFunction } from 'express';
+    ErrorRequestHandler, Request as eRequest,
+    Response as eResponse, NextFunction as eNext} from 'express';
 
 declare type RequestHandlerParams = RequestHandler
     | ErrorRequestHandler
     | (RequestHandler | ErrorRequestHandler)[];
+
+declare type Request = eRequest;
+declare type Response = eResponse;
+declare type Next = eNext;
 
 declare type RequestHandlerBaseParams = RequestHandler | ErrorRequestHandler;
 
@@ -177,7 +181,7 @@ declare function Route(routeOptions: RouteOptions);
  * with `Route` decorator.
  */
 interface RouteDef {
-    Route(req: Request, res: Response, next?: NextFunction): void;
+    Route(req: Request, res: Response, next?: Next): void;
 }
 
 /**

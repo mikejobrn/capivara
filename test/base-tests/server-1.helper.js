@@ -7,48 +7,104 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../index");
-let Rota = class Rota {
+let RotaGET = class RotaGET {
     Route(req, res, next) {
-        res.status(200).send('hello world');
+        res.status(200).send('get method');
     }
 };
-Rota = __decorate([
+RotaGET = __decorate([
     index_1.Route({
         path: '',
         method: index_1.HttpMethod.GET
     })
-], Rota);
-let RotaPost = class RotaPost {
+], RotaGET);
+let RotaPOST = class RotaPOST {
     Route(req, res, next) {
-        res.status(200).send('method post');
+        res.status(200).send('post method');
     }
 };
-RotaPost = __decorate([
+RotaPOST = __decorate([
     index_1.Route({
         path: 'post-method',
         method: index_1.HttpMethod.POST
     })
-], RotaPost);
-let RotaDelete = class RotaDelete {
+], RotaPOST);
+let RotaDELETE = class RotaDELETE {
     Route(req, res, next) {
-        res.status(200).send('method delete');
+        res.status(200).send('delete method');
     }
 };
-RotaDelete = __decorate([
+RotaDELETE = __decorate([
     index_1.Route({
         path: 'path1/delete-method',
         method: index_1.HttpMethod.DELETE
     })
-], RotaDelete);
+], RotaDELETE);
+let RotaHEAD = class RotaHEAD {
+    Route(req, res, next) {
+        res.status(200).send('head method');
+    }
+};
+RotaHEAD = __decorate([
+    index_1.Route({
+        path: 'path1/head-method',
+        method: index_1.HttpMethod.HEAD
+    })
+], RotaHEAD);
+let RotaOPTIONS = class RotaOPTIONS {
+    Route(req, res, next) {
+        res.status(200).send('options method');
+    }
+};
+RotaOPTIONS = __decorate([
+    index_1.Route({
+        path: 'path1/other/options-method',
+        method: index_1.HttpMethod.OPTIONS
+    })
+], RotaOPTIONS);
+let RotaPATCH = class RotaPATCH {
+    Route(req, res, next) {
+        res.status(200).send('patch method');
+    }
+};
+RotaPATCH = __decorate([
+    index_1.Route({
+        path: 'patch-method',
+        method: index_1.HttpMethod.PATCH
+    })
+], RotaPATCH);
+let RotaPUT = class RotaPUT {
+    Route(req, res, next) {
+        res.status(200).send('put method');
+    }
+};
+RotaPUT = __decorate([
+    index_1.Route({
+        path: 'put-method',
+        method: index_1.HttpMethod.PUT
+    })
+], RotaPUT);
+let RotaANY = class RotaANY {
+    Route(req, res, next) {
+        res.status(200).send('all method');
+    }
+};
+RotaANY = __decorate([
+    index_1.Route({
+        path: 'all-method',
+        method: index_1.HttpMethod.ALL
+    })
+], RotaANY);
 let Roteador = class Roteador {
 };
 Roteador = __decorate([
     index_1.Router({
         mountPoint: '',
         routes: [
-            Rota,
-            RotaPost,
-            RotaDelete
+            RotaGET, RotaPOST,
+            RotaDELETE, RotaHEAD,
+            RotaOPTIONS, RotaPATCH,
+            RotaPUT, RotaANY
         ],
         middlewares: []
     })

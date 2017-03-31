@@ -21,6 +21,14 @@ export class Server {
         return this._server;
     }
 
+    constructor(configSetter: ConfigSetter) {
+        this._server = undefined;
+        this._app = express();
+        if(configSetter) {
+            configSetter.configure(this._app);
+        }
+    }
+
     /**
      * Bootstraps the ExpressApplication.
      *
@@ -32,13 +40,6 @@ export class Server {
      */
     public static bootstraps(configSetter?: ConfigSetter): Server {
         return new Server(configSetter);
-    }
-
-    constructor(configSetter: ConfigSetter) {
-        this._server = undefined;
-        this._app = express();
-        if(configSetter)
-            configSetter.configure(this._app);
     }
 
     public start(port?: number): void {

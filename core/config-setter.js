@@ -67,7 +67,7 @@ class ConfigSetter {
             throw Error('You didnt defined options for router');
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
-        // adding beforeMiddlewares (issue #4)
+        // adding middlewares (issue #4)
         this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
         // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
@@ -118,20 +118,27 @@ class ConfigSetter {
     _resolveMethodFunction(caller, method, path, func, middlewares) {
         let resolvedPath = path ? routing_1.RoutingHelper.resolvePath(path) : '*';
         let resolvedMethod = 'all';
-        if (method === types_1.HttpMethod.DELETE)
+        if (method === types_1.HttpMethod.DELETE) {
             resolvedMethod = 'delete';
-        else if (method === types_1.HttpMethod.GET)
+        }
+        else if (method === types_1.HttpMethod.GET) {
             resolvedMethod = 'get';
-        else if (method === types_1.HttpMethod.HEAD)
+        }
+        else if (method === types_1.HttpMethod.HEAD) {
             resolvedMethod = 'head';
-        else if (method === types_1.HttpMethod.OPTIONS)
+        }
+        else if (method === types_1.HttpMethod.OPTIONS) {
             resolvedMethod = 'options';
-        else if (method === types_1.HttpMethod.PATCH)
+        }
+        else if (method === types_1.HttpMethod.PATCH) {
             resolvedMethod = 'patch';
-        else if (method === types_1.HttpMethod.POST)
+        }
+        else if (method === types_1.HttpMethod.POST) {
             resolvedMethod = 'post';
-        else if (method === types_1.HttpMethod.PUT)
+        }
+        else if (method === types_1.HttpMethod.PUT) {
             resolvedMethod = 'put';
+        }
         caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 }

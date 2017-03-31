@@ -5,9 +5,9 @@ import { Server, ConfigSetter, Route,
     path: '',
     method: HttpMethod.GET
 })
-class Rota implements RouteDef {
+class RotaGET implements RouteDef {
     Route(req: any, res: any, next: any) {
-        res.status(200).send('hello world');
+        res.status(200).send('get method');
     }
 }
 
@@ -15,9 +15,9 @@ class Rota implements RouteDef {
     path: 'post-method',
     method: HttpMethod.POST
 })
-class RotaPost implements RouteDef {
+class RotaPOST implements RouteDef {
     Route(req: any, res: any, next: any) {
-        res.status(200).send('method post');
+        res.status(200).send('post method');
     }
 }
 
@@ -25,18 +25,69 @@ class RotaPost implements RouteDef {
     path: 'path1/delete-method',
     method: HttpMethod.DELETE
 })
-class RotaDelete implements RouteDef {
+class RotaDELETE implements RouteDef {
     Route(req: any, res: any, next: any) {
-        res.status(200).send('method delete');
+        res.status(200).send('delete method');
+    }
+}
+
+@Route({
+    path: 'path1/head-method',
+    method: HttpMethod.HEAD
+})
+class RotaHEAD implements RouteDef {
+    Route(req: any, res: any, next: any) {
+        res.status(200).send('head method');
+    }
+}
+
+@Route({
+    path: 'path1/other/options-method',
+    method: HttpMethod.OPTIONS
+})
+class RotaOPTIONS implements RouteDef {
+    Route(req: any, res: any, next: any) {
+        res.status(200).send('options method');
+    }
+}
+
+@Route({
+    path: 'patch-method',
+    method: HttpMethod.PATCH
+})
+class RotaPATCH implements RouteDef {
+    Route(req: any, res: any, next: any) {
+        res.status(200).send('patch method');
+    }
+}
+
+@Route({
+    path: 'put-method',
+    method: HttpMethod.PUT
+})
+class RotaPUT implements RouteDef {
+    Route(req: any, res: any, next: any) {
+        res.status(200).send('put method');
+    }
+}
+
+@Route({
+    path: 'all-method',
+    method: HttpMethod.ALL
+})
+class RotaANY implements RouteDef {
+    Route(req: any, res: any, next: any) {
+        res.status(200).send('all method');
     }
 }
 
 @Router({
     mountPoint: '',
     routes: [
-        Rota,
-        RotaPost,
-        RotaDelete
+        RotaGET, RotaPOST,
+        RotaDELETE, RotaHEAD,
+        RotaOPTIONS, RotaPATCH,
+        RotaPUT, RotaANY
     ],
     middlewares: []
 })
