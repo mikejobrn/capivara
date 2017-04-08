@@ -5,20 +5,20 @@ const types_1 = require("./types");
 const routing_1 = require("./routing");
 class ConfigSetter {
     constructor() {
-        this._serverMode = types_1.ServerMode.DEVELOPMENT;
+        this.environment = types_1.Environment.DEVELOPMENT;
         this._middlewares = [];
         this._routers = [];
     }
-    get serverMode() {
-        return this._serverMode;
+    get environment() {
+        return this._env;
     }
     /**
      * Define in what mode the server will be running
      */
-    set serverMode(serverMode) {
-        if (serverMode === types_1.ServerMode.ANY)
-            types_1.ServerMode.DEVELOPMENT;
-        this._serverMode = serverMode;
+    set environment(env) {
+        if (env === types_1.Environment.ANY)
+            types_1.Environment.DEVELOPMENT;
+        this._env = env;
     }
     /**
      * Define middleware functions to the app.
@@ -26,13 +26,13 @@ class ConfigSetter {
      * Same as ``app.use(middleware)`` when using
      * javascript to work with Express.
      *
-     * ``serverMode``: it indicates what the servermode that
+     * ``environment``: it indicates what the servermode that
      * the middleware will running
      */
-    useMiddleware(middleware, serverMode) {
+    middleware(middleware, environment) {
         this._middlewares.push({
             requestHandlerParam: middleware,
-            serverMode: serverMode ? serverMode : types_1.ServerMode.ANY
+            environment: environment ? environment : types_1.Environment.ANY
         });
     }
     /** Configure an app with definitions at ConfigSetter. */
@@ -43,7 +43,7 @@ class ConfigSetter {
     /** It configures middlewares */
     _configureMiddlewares(app) {
         this._middlewares.forEach((val, index) => {
-            if (val.serverMode === types_1.ServerMode.ANY || val.serverMode === this.serverMode)
+            if (val.environment === types_1.Environment.ANY || val.environment === this.environment)
                 app.use(val.requestHandlerParam);
         });
     }
@@ -61,28 +61,35 @@ class ConfigSetter {
         });
     }
     _proccessRouter(router, app, parent) {
-        if (!this._isRouterDecorated(router))
+        if (!this._isRouterDecorated(router)) {
             throw Error('You tried to proccess an undecorated router');
-        if (!this._isRouterOptionsDefined(router))
+        }
+        if (!this._isRouterOptionsDefined(router)) {
             throw Error('You didnt defined options for router');
+        }
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
-        // adding beforeMiddlewares (issue #4)
-        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.beforeMiddlewares);
+        // adding middlewares (issue #4)
+        this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
         // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
-            if (!this._isRouteDecorated(routerOptions.routes[i]))
+            if (!this._isRouteDecorated(routerOptions.routes[i])) {
                 throw Error('You tried to pass an undecorated route');
+            }
             this._proccessRoute(realRouter, routerOptions.routes[i]);
         }
         // here go deep through the tree
-        if (routerOptions.routers)
-            for (let i = 0; i < routerOptions.routers.length; ++i)
+        if (routerOptions.routers) {
+            for (let i = 0; i < routerOptions.routers.length; ++i) {
                 this._proccessRouter(routerOptions.routers[i], null, realRouter);
-        if (parent)
+            }
+        }
+        if (parent) {
             parent.use(routerOptions.mountPoint, realRouter);
-        else
+        }
+        else {
             app.use(routerOptions.mountPoint, realRouter);
+        }
     }
     _isRouterDecorated(router) {
         let routerd = new router();
@@ -102,11 +109,13 @@ class ConfigSetter {
         let _route = new route();
         let opts = _route._core_route_options;
         this._resolveMethodFunction(router, opts.method, opts.path, (req, res, next) => {
-            if (route.prototype.Route.length === 2)
+            if (route.prototype.Route.length === 2) {
                 _route.Route(req, res);
-            else if (route.prototype.Route.length === 3)
+            }
+            else if (route.prototype.Route.length === 3) {
                 _route.Route(req, res, next);
-        }, opts.beforeMiddlewares);
+            }
+        }, opts.middlewares);
     }
     _configureRouterBeforeMiddlewares(router, middlewares) {
         if (!middlewares)
@@ -117,21 +126,29 @@ class ConfigSetter {
     }
     _resolveMethodFunction(caller, method, path, func, middlewares) {
         let resolvedPath = path ? routing_1.RoutingHelper.resolvePath(path) : '*';
+        console.log(resolvedPath);
         let resolvedMethod = 'all';
-        if (method === types_1.HttpMethod.DELETE)
+        if (method === types_1.HttpMethod.DELETE) {
             resolvedMethod = 'delete';
-        else if (method === types_1.HttpMethod.GET)
+        }
+        else if (method === types_1.HttpMethod.GET) {
             resolvedMethod = 'get';
-        else if (method === types_1.HttpMethod.HEAD)
+        }
+        else if (method === types_1.HttpMethod.HEAD) {
             resolvedMethod = 'head';
-        else if (method === types_1.HttpMethod.OPTIONS)
+        }
+        else if (method === types_1.HttpMethod.OPTIONS) {
             resolvedMethod = 'options';
-        else if (method === types_1.HttpMethod.PATCH)
+        }
+        else if (method === types_1.HttpMethod.PATCH) {
             resolvedMethod = 'patch';
-        else if (method === types_1.HttpMethod.POST)
+        }
+        else if (method === types_1.HttpMethod.POST) {
             resolvedMethod = 'post';
-        else if (method === types_1.HttpMethod.PUT)
+        }
+        else if (method === types_1.HttpMethod.PUT) {
             resolvedMethod = 'put';
+        }
         caller[resolvedMethod](resolvedPath, middlewares ? middlewares : [], func);
     }
 }

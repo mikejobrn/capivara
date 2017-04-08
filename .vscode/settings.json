@@ -7,12 +7,14 @@
         "**/.DS_Store": true,
         ".vscode": true,
         "node_modules": true,
-        "**.js": true,
-        "**.js.map": true,
+        "index.js": true,
+        "index.js.map": true,
         "core/**/**.js": true,
         "core/**/**.js.map": true,
         "test/**/**.js": true,
         "test/**/**.js.map": true,
-        ".tscache": true
+        ".tscache": true,
+        "tsconfig.js": true,
+        "tsconfig.js.map": true
     }
 }

@@ -14,22 +14,19 @@ let Route = (routeOptions: RouteOptions) => {
          * and if it has min of two params and max three
          * */
         if(!target.prototype.Route)
-            throw Error('error - Route function is missing');
+            throw Error('Route function is missing');
         else if(!(target.prototype.Route.length > 1 && target.prototype.Route.length < 4))
-            throw Error('error - Route function is missing params');
+            throw Error('Route function is missing params');
 
         /** Annotation to identify an route type */
-        (<Function>target).prototype._core_route_identifier = 'route_type';
+        target.prototype._core_route_identifier = 'route_type';
 
         routeOptions.path = RoutingHelper.resolvePath(routeOptions.path);
 
         /** Saving routing options */
-        (<Function>target).prototype._core_route_options = routeOptions;
+        target.prototype._core_route_options = routeOptions;
 
     }
 }
-
-// https://gist.github.com/remojansen/16c661a7afd68e22ac6e
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes
 
 export { Route };

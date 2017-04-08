@@ -6,7 +6,7 @@ import { Server, ConfigSetter, Route,
     method: HttpMethod.GET
 })
 class Rota implements RouteDef {
-    Route(req, res, next) {
+    Route(req: any, res: any, next: any) {
         res.send('hello world');
     }
 }
@@ -16,7 +16,7 @@ class Rota implements RouteDef {
     method: HttpMethod.GET
 })
 class Rota2 implements RouteDef {
-    Route(req, res, next) {
+    Route(req: any, res: any, next: any) {
         res.send((<any>req).temp ? (<any>req).temp : '');
     }
 }
@@ -24,23 +24,23 @@ class Rota2 implements RouteDef {
 @Router({
     mountPoint: 'api',
     routes: [Rota, Rota2],
-    beforeMiddlewares: [
+    middlewares: [
         {
             method: HttpMethod.ALL,
-            middleware: (req, res, next) => { (<any>req).temp = 'a'; next(); }
+            middleware: (req: any, res: any, next: any) => { (<any>req).temp = 'a'; next(); }
         },
         {
             method: HttpMethod.POST,
-            middleware: (req, res, next) => { (<any>req).temp = 'd'; next(); }
+            middleware: (req: any, res: any, next: any) => { (<any>req).temp = 'd'; next(); }
         },
         {
             method: HttpMethod.GET,
             path: 'minha-rota3',
-            middleware: (req, res, next) => { (<any>req).temp += 'b'; next(); }
+            middleware: (req: any, res: any, next: any) => { (<any>req).temp += 'b'; next(); }
         },
         {
             method: HttpMethod.GET,
-            middleware: (req, res, next) => { (<any>req).temp += 'b'; next(); }
+            middleware: (req: any, res: any, next: any) => { (<any>req).temp += 'b'; next(); }
         }
     ]
 })

@@ -6,11 +6,12 @@
 
 <div align="center">
     <img src="https://img.shields.io/badge/Typescript-latest-blue.svg">
+    <img src="https://travis-ci.org/victorschinaider/capivara.svg?branch=master">
 </div>
 
 **In development.**
 
-`Capivara` helps you to create a modularized express application using `Typescript`.
+`Capivara` helps you to create a modularized express application using `Typescript`, and it helps you to make your app more `testable`.
 
 ## Set up Capivara 
 In your project, just install ``Capivara``
@@ -72,8 +73,8 @@ import { MyRouter } from './Router';
 let config: ConfigSetter = new ConfigSetter();
 
 /** use middlewares */
-config.useMiddleware(bodyParser.json());
-config.useMiddleware(compression());
+config.middleware(bodyParser.json());
+config.middleware(compression());
 
 /** define routers */
 config.setRouter(MyRouter);

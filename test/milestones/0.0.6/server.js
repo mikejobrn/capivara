@@ -35,7 +35,7 @@ Roteador = __decorate([
     index_1.Router({
         mountPoint: 'api',
         routes: [Rota, Rota2],
-        beforeMiddlewares: [
+        middlewares: [
             {
                 method: index_1.HttpMethod.ALL,
                 middleware: (req, res, next) => { req.temp = 'a'; next(); }

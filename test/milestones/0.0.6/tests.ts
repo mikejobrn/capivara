@@ -1,11 +1,12 @@
-import { describe, it, before, beforeEach, after } from 'mocha';
+import 'mocha';
+import 'chai-http';
 import * as chai from 'chai';
 import { Server } from '../../../index';
 import { Server006 } from './server';
 
 chai.use(require('chai-http'));
 
-describe('Milestone 0.0.6', () => {
+describe('Milestone 0.0.6: ', () => {
 
     before(() => {
         Server006.start();
