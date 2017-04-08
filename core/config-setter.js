@@ -61,28 +61,35 @@ class ConfigSetter {
         });
     }
     _proccessRouter(router, app, parent) {
-        if (!this._isRouterDecorated(router))
+        if (!this._isRouterDecorated(router)) {
             throw Error('You tried to proccess an undecorated router');
-        if (!this._isRouterOptionsDefined(router))
+        }
+        if (!this._isRouterOptionsDefined(router)) {
             throw Error('You didnt defined options for router');
+        }
         let routerOptions = (new router())._typress_core_router_options;
         let realRouter = express_1.Router();
         // adding middlewares (issue #4)
         this._configureRouterBeforeMiddlewares(realRouter, routerOptions.middlewares);
         // configuring routes
         for (let i = 0; i < routerOptions.routes.length; ++i) {
-            if (!this._isRouteDecorated(routerOptions.routes[i]))
+            if (!this._isRouteDecorated(routerOptions.routes[i])) {
                 throw Error('You tried to pass an undecorated route');
+            }
             this._proccessRoute(realRouter, routerOptions.routes[i]);
         }
         // here go deep through the tree
-        if (routerOptions.routers)
-            for (let i = 0; i < routerOptions.routers.length; ++i)
+        if (routerOptions.routers) {
+            for (let i = 0; i < routerOptions.routers.length; ++i) {
                 this._proccessRouter(routerOptions.routers[i], null, realRouter);
-        if (parent)
+            }
+        }
+        if (parent) {
             parent.use(routerOptions.mountPoint, realRouter);
-        else
+        }
+        else {
             app.use(routerOptions.mountPoint, realRouter);
+        }
     }
     _isRouterDecorated(router) {
         let routerd = new router();
@@ -102,10 +109,12 @@ class ConfigSetter {
         let _route = new route();
         let opts = _route._core_route_options;
         this._resolveMethodFunction(router, opts.method, opts.path, (req, res, next) => {
-            if (route.prototype.Route.length === 2)
+            if (route.prototype.Route.length === 2) {
                 _route.Route(req, res);
-            else if (route.prototype.Route.length === 3)
+            }
+            else if (route.prototype.Route.length === 3) {
                 _route.Route(req, res, next);
+            }
         }, opts.middlewares);
     }
     _configureRouterBeforeMiddlewares(router, middlewares) {
@@ -117,6 +126,7 @@ class ConfigSetter {
     }
     _resolveMethodFunction(caller, method, path, func, middlewares) {
         let resolvedPath = path ? routing_1.RoutingHelper.resolvePath(path) : '*';
+        console.log(resolvedPath);
         let resolvedMethod = 'all';
         if (method === types_1.HttpMethod.DELETE) {
             resolvedMethod = 'delete';

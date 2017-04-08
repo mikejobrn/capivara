@@ -83,10 +83,19 @@ describe('Route Decorator: ', () => {
     });
     it('HEAD HTTP method should works', (done) => {
         chai.request(server_1_helper_1.Server1.server)
-            .del('/path1/head-method')
+            .head('/path1/head-method')
             .end((err, res) => {
             chai.expect(res.status).to.be.equals(200);
             chai.expect(res.text).to.be.equals('head method');
+            done();
+        });
+    });
+    it('OPTIONS HTTP method should works', (done) => {
+        chai.request(server_1_helper_1.Server1.server)
+            .options('/path1/other/options-method')
+            .end((err, res) => {
+            chai.expect(res.status).to.be.equals(200);
+            chai.expect(res.text).to.be.equals('options method');
             done();
         });
     });

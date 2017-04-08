@@ -76,8 +76,8 @@ export class ConfigSetter {
     }
 
     private _proccessRouter(router: any, app: ExpressApplication, parent?: Router): void {
-        if(!this._isRouterDecorated(router)) throw Error('You tried to proccess an undecorated router');
-        if(!this._isRouterOptionsDefined(router)) throw Error('You didnt defined options for router');
+        if(!this._isRouterDecorated(router)) { throw Error('You tried to proccess an undecorated router'); }
+        if(!this._isRouterOptionsDefined(router)) { throw Error('You didnt defined options for router'); }
 
         let routerOptions: RouterOptions = (new router())._typress_core_router_options;
 
@@ -88,20 +88,25 @@ export class ConfigSetter {
 
         // configuring routes
         for(let i: number = 0; i < routerOptions.routes.length; ++i) {
-            if(!this._isRouteDecorated(routerOptions.routes[i]))
+            if(!this._isRouteDecorated(routerOptions.routes[i])) {
                 throw Error('You tried to pass an undecorated route');
+            }
+
             this._proccessRoute(realRouter, routerOptions.routes[i]);
         }
 
         // here go deep through the tree
-        if(routerOptions.routers)
-            for(let i: number = 0; i < routerOptions.routers.length; ++i)
+        if(routerOptions.routers) {
+            for(let i: number = 0; i < routerOptions.routers.length; ++i) {
                 this._proccessRouter(routerOptions.routers[i], null, realRouter);
+            }
+        }
 
-        if(parent)
+        if(parent) {
             parent.use(routerOptions.mountPoint, realRouter);
-        else
+        } else {
             app.use(routerOptions.mountPoint, realRouter);
+        }
     }
 
     private _isRouterDecorated(router: any): boolean {
@@ -124,13 +129,17 @@ export class ConfigSetter {
     private _proccessRoute(router: Router, route: any): void {
         let _route: any = new route();
         let opts: RouteOptions = _route._core_route_options;
+
         this._resolveMethodFunction(router, opts.method, opts.path,
             (req: Request, res: Response, next: NextFunction) => {
-                if(route.prototype.Route.length === 2)
+
+                if(route.prototype.Route.length === 2) {
                     _route.Route(req, res);
-                else if(route.prototype.Route.length === 3)
+                } else if(route.prototype.Route.length === 3) {
                     _route.Route(req, res, next);
-            }, opts.middlewares);
+                }
+
+        }, opts.middlewares);
     }
 
     private _configureRouterBeforeMiddlewares(router: Router, middlewares: Array<RouterMiddlewareDef>) {
@@ -144,6 +153,7 @@ export class ConfigSetter {
         func: RequestHandlerBaseParams, middlewares?: RequestHandlerParams) {
 
         let resolvedPath: string = path ? RoutingHelper.resolvePath(path) : '*';
+
         let resolvedMethod: string = 'all';
         if(method === HttpMethod.DELETE) { resolvedMethod = 'delete'; }
         else if(method === HttpMethod.GET) { resolvedMethod = 'get'; }
