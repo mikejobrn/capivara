@@ -4,17 +4,6 @@
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
-        "**/.DS_Store": true,
-        ".vscode": true,
-        "node_modules": true,
-        "index.js": true,
-        "index.js.map": true,
-        "core/**/**.js": true,
-        "core/**/**.js.map": true,
-        "test/**/**.js": true,
-        "test/**/**.js.map": true,
-        ".tscache": true,
-        "tsconfig.js": true,
-        "tsconfig.js.map": true
+        "**/.DS_Store": true
     }
 }
