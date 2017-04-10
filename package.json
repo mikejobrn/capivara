@@ -6,7 +6,8 @@
     "start": "",
     "test": "mocha --recursive"
   },
-  "main": "dist/index.js",
+  "main": "release/index.js",
+  "types": "release/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/victorschinaider/capivara"
