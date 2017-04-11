@@ -10,6 +10,7 @@ class Test extends Oi {
   private update: string;
   private mytest: Test2;
   private go: string;
+  private test2: string;
 
   public olaMundo() {
     console.log('write');
