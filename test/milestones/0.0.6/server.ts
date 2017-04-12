@@ -1,5 +1,5 @@
 import { Server, ConfigSetter, Route,
-    Router, RouteDef, HttpMethod } from '../../../index';
+    Router, RouteDef, HttpMethod } from '../../../src/capivara';
 
 @Route({
     path: 'minha-rota',

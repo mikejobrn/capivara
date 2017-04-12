@@ -1,7 +1,7 @@
 import 'mocha';
 import 'chai-http';
 import * as chai from 'chai';
-import { Server } from '../../../index';
+import { Server } from '../../../src/capivara';
 import { Server006 } from './server';
 
 chai.use(require('chai-http'));

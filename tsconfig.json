@@ -2,11 +2,11 @@
     "compilerOptions": {
         "target": "es5",
         "noImplicitAny": true,
-        "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
         "experimentalDecorators": true,
         "typeRoots": ["../node_modules/@types"],
-        "declaration": true
+        "declaration": true,
+        "removeComments": false
     }
 }

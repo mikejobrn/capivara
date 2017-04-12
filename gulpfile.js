@@ -1,13 +1,14 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var merge = require('merge2');
+var mocha = require('gulp-mocha');
 var tsConfig = ts.createProject('tsconfig.json');
 
 /**
  * It starts the dev mode
- * 
+ *
  * Just start a dev mode, that will be watching
- * ts files. 
+ * ts files.
  */
 gulp.task("dev:watch", function () {
   return gulp.watch('src/**/**.ts', ['dev:compile']);
@@ -16,12 +17,12 @@ gulp.task("dev:watch", function () {
 gulp.task("dev:compile", function () {
   return gulp.src('src/**/**.ts')
     .pipe(tsConfig())
-    .js.pipe(gulp.dest('build'));
+    .js.pipe(gulp.dest('build/src'));
 });
 
 /**
  * Generate a new release
- * 
+ *
  * - compile all ts files
  * - generate .d.ts files
  * - generate docs
@@ -39,3 +40,36 @@ gulp.task("gen:release", function () {
   ]);
 
 });
+
+
+/**
+ * Task: test
+ *
+ * Task to test the code.
+ * test:compile runs sync.
+ */
+gulp.task('test', ['test:compile'], () => {
+  return gulp.src(['build/tests/**/**.js'], { read: false })
+    .pipe(mocha({ reporter: 'spec' }))
+    .once('error', () => {
+			process.exit(1);
+		})
+		.once('end', () => {
+			process.exit();
+		});
+});
+
+gulp.task('test:compile', (cb) => {
+  return gulp.src('test/**/**.ts')
+    .pipe(ts({
+      "experimentalDecorators": true,
+      "target": "es5",
+      "typeRoots": ["../node_modules/@types"]
+    }))
+    .js.pipe(gulp.dest('build/tests'));
+
+    cb(err);
+});
+
+
+
