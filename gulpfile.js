@@ -14,10 +14,12 @@ gulp.task("dev:watch", function () {
   return gulp.watch('src/**/**.ts', ['dev:compile']);
 });
 
-gulp.task("dev:compile", function () {
+gulp.task("dev:compile", function (cb) {
   return gulp.src('src/**/**.ts')
     .pipe(tsConfig())
     .js.pipe(gulp.dest('build/src'));
+
+    cb(err); // sync task
 });
 
 /**
@@ -48,7 +50,7 @@ gulp.task("gen:release", function () {
  * Task to test the code.
  * test:compile runs sync.
  */
-gulp.task('test', ['test:compile'], () => {
+gulp.task('test', ['dev:compile', 'test:compile'], () => {
   return gulp.src(['build/tests/**/**.js'], { read: false })
     .pipe(mocha({ reporter: 'spec' }))
     .once('error', () => {
@@ -68,7 +70,7 @@ gulp.task('test:compile', (cb) => {
     }))
     .js.pipe(gulp.dest('build/tests'));
 
-    cb(err);
+    cb(err); // sync task
 });
 
 
