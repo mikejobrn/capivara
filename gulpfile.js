@@ -1,8 +1,9 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
+var through = require('through2');
 var merge = require('merge2');
 var mocha = require('gulp-mocha');
-var typedoc = require('gulp-typedoc');
+var markdown = require('gulp-markdown');
 var tsConfig = ts.createProject('tsconfig.json');
 
 /**
@@ -44,7 +45,7 @@ gulp.task("gen:release", ['gen:typedocs'], () => {
 
 });
 
-gulp.task('gen:typedocs', (cb) => {
+gulp.task('gen:docs', (cb) => {
 
   // I didn't like the typedocs
   // It can be used as a aditional,
@@ -59,6 +60,15 @@ gulp.task('gen:typedocs', (cb) => {
 	// 		out: './docs/api',
   //     name: 'Capivara API'
   //   }));
+
+  // return gulp.src('src/docs/**/**.md')
+  //   .pipe(through.obj((file, enc, cv) => {
+  //     console.log(file.contents.toString())
+  //   }));
+
+  return gulp.src('src/docs/**/**.md')
+    .pipe(markdown())
+		.pipe(gulp.dest('docs'));
 
   cb(err);
 
