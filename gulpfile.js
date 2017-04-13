@@ -32,7 +32,7 @@ gulp.task("dev:compile", function (cb) {
  * - generate docs
  * - publish in npm
  */
-gulp.task("gen:release", ['gen:typedocs'], () => {
+gulp.task("gen:release", [], () => {
 
   /** compiling typescript files */
   var tsResult = gulp.src('src/**/**.ts')
