@@ -1,9 +1,0 @@
-{
-    "delay": "500",
-    "watch": [
-        "index.js",
-        "config.js",
-        "bootstraps.js",
-        "core/**/**.js"
-    ]
-}

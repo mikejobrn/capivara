@@ -1,6 +1,6 @@
 # Dependency directories
 node_modules
 jspm_packages
-/app/**/*.js
-/app/**/*.js.map
 .tscache
+.vscode
+build

@@ -2,7 +2,7 @@ import 'mocha';
 import 'chai-http';
 import * as chai from 'chai';
 import { Server1 } from './server-1.helper';
-import { Route } from '../../index';
+import { Route } from '../../src/capivara';
 
 chai.use(require('chai-http'));
 
@@ -61,7 +61,7 @@ describe('Route Decorator: ', () => {
         .get('/')
         .end((err, res) => {
             chai.expect(res.status).to.be.equals(200);
-            chai.expect((<any>res).text).to.be.equals('hello world');
+            chai.expect((<any>res).text).to.be.equals('get method');
             done();
         })
     })
@@ -71,7 +71,7 @@ describe('Route Decorator: ', () => {
         .post('/post-method')
         .end((err, res) => {
             chai.expect(res.status).to.be.equals(200);
-            chai.expect((<any>res).text).to.be.equals('method post');
+            chai.expect((<any>res).text).to.be.equals('post method');
             done();
         })
     })
@@ -81,13 +81,33 @@ describe('Route Decorator: ', () => {
         .del('/path1/delete-method')
         .end((err, res) => {
             chai.expect(res.status).to.be.equals(200);
-            chai.expect((<any>res).text).to.be.equals('method delete');
+            chai.expect((<any>res).text).to.be.equals('delete method');
+            done();
+        })
+    })
+
+    // it('HEAD HTTP method should works' , (done) => {
+    //     chai.request(Server1.server)
+    //     .head('/path1/head-method')
+    //     .end((err, res) => {
+    //         chai.expect(res.status).to.be.equals(200);
+    //         chai.expect((<any>res).text).to.be.equals('head method');
+    //         done();
+    //     })
+    // })
+
+    it('OPTIONS HTTP method should works' , (done) => {
+        chai.request(Server1.server)
+        .options('/path1/other/options-method')
+        .end((err, res) => {
+            chai.expect(res.status).to.be.equals(200);
+            chai.expect((<any>res).text).to.be.equals('options method');
             done();
         })
     })
 
     after(() => {
         Server1.close();
-    })
+    });
 
 })

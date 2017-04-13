@@ -1,14 +1,12 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
         "noImplicitAny": true,
-        "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
         "experimentalDecorators": true,
-        "typeRoots": [
-            "../node_modules/@types"
-        ]
+        "typeRoots": ["../node_modules/@types"],
+        "declaration": true,
+        "removeComments": false
     }
 }
