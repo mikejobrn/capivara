@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var merge = require('merge2');
 var mocha = require('gulp-mocha');
+var typedoc = require('gulp-typedoc');
 var tsConfig = ts.createProject('tsconfig.json');
 
 /**
@@ -30,7 +31,7 @@ gulp.task("dev:compile", function (cb) {
  * - generate docs
  * - publish in npm
  */
-gulp.task("gen:release", function () {
+gulp.task("gen:release", ['gen:typedocs'], () => {
 
   /** compiling typescript files */
   var tsResult = gulp.src('src/**/**.ts')
@@ -42,6 +43,26 @@ gulp.task("gen:release", function () {
   ]);
 
 });
+
+gulp.task('gen:typedocs', (cb) => {
+
+  // I didn't like the typedocs
+  // It can be used as a aditional,
+  // but not as main docs.
+  // MAYBE: https://github.com/sindresorhus/gulp-markdown
+  // So, i create readme for functions.
+  // return gulp.src('src/**/**.ts')
+  //   .pipe(typedoc({
+  //     module: 'commonjs',
+	// 		target: 'es5',
+	// 		includeDeclarations: true,
+	// 		out: './docs/api',
+  //     name: 'Capivara API'
+  //   }));
+
+  cb(err);
+
+})
 
 
 /**

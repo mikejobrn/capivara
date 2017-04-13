@@ -108,6 +108,6 @@ describe('Route Decorator: ', () => {
 
     after(() => {
         Server1.close();
-    })
+    });
 
 })
