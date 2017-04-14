@@ -1,14 +1,14 @@
 {
   "name": "capivara",
-  "version": "0.0.8",
+  "version": "0.0.8-2",
   "description": "Library to use Express + Typescript",
   "scripts": {
     "start": "gulp dev:watch",
     "compile": "gulp dev:compile",
     "test": "gulp test"
   },
-  "main": "release/capivara.js",
-  "types": "release/capivara.d.ts",
+  "main": "release/js/capivara.js",
+  "types": "release/definitions/capivara.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/victorschinaider/capivara"
